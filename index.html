@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skripsi Milestone Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Skripsi Milestone Tracker</h1>
+            <p class="subtitle">Stay on track for your 120-day goal</p>
+        </header>
+
+        <section class="add-form card">
+            <h2>Add Student</h2>
+            <form id="student-form">
+                <div class="form-group">
+                    <label for="student-name">Student Name</label>
+                    <input type="text" id="student-name" required placeholder="e.g. Budi Purnomo">
+                </div>
+                <div class="form-group">
+                    <label for="proposal-date">Proposal Seminar Date</label>
+                    <input type="date" id="proposal-date" required>
+                </div>
+                <button type="submit" class="btn">Add to Tracker</button>
+            </form>
+        </section>
+
+        <section class="leaderboard">
+            <div class="leaderboard-header">
+                <h2>Leaderboard</h2>
+                <div class="sort-options">
+                    <label for="sort-select">Sort by:</label>
+                    <select id="sort-select">
+                        <option value="name">Name (A-Z)</option>
+                        <option value="closest">Closest Deadline</option>
+                        <option value="overdue">Most Overdue</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="student-list">
+                <!-- Students will be dynamically injected here -->
+            </div>
+        </section>
+    </div>
+    
+    <script src="./app.js"></script>
+</body>
+</html>
