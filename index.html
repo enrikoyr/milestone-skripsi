@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skripsi Milestone Tracker</title>
+    <title>Pelacak Milestone Skripsi</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Skripsi Milestone Tracker</h1>
-            <p class="subtitle">Stay on track for your 120-day goal</p>
+            <h1>Pelacak Milestone Skripsi</h1>
+            <p class="subtitle">Tetap di jalur untuk target 120 hari Anda</p>
         </header>
 
         <section class="add-form card">
-            <h2>Add Student</h2>
+            <h2>Tambah Mahasiswa</h2>
             <form id="student-form">
                 <div class="form-group">
-                    <label for="student-name">Student Name</label>
-                    <input type="text" id="student-name" required placeholder="e.g. Budi Purnomo">
+                    <label for="student-name">Nama Mahasiswa</label>
+                    <input type="text" id="student-name" required placeholder="misal: Budi Purnomo">
                 </div>
                 <div class="form-group">
-                    <label for="proposal-date">Proposal Seminar Date</label>
+                    <label for="proposal-date">Tanggal Seminar Proposal</label>
                     <input type="date" id="proposal-date" required>
                 </div>
-                <button type="submit" class="btn">Add to Tracker</button>
+                <button type="submit" class="btn">Tambah ke Pelacak</button>
             </form>
         </section>
 
         <section class="leaderboard">
             <div class="leaderboard-header">
-                <h2>Leaderboard</h2>
+                <h2>Papan Peringkat</h2>
                 <div class="sort-options">
-                    <label for="sort-select">Sort by:</label>
+                    <label for="sort-select">Urutkan berdasarkan:</label>
                     <select id="sort-select">
-                        <option value="name">Name (A-Z)</option>
-                        <option value="closest">Closest Deadline</option>
-                        <option value="overdue">Most Overdue</option>
+                        <option value="name">Nama (A-Z)</option>
+                        <option value="closest">Tenggat Terdekat</option>
+                        <option value="overdue">Paling Terlambat</option>
                     </select>
                 </div>
             </div>

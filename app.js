@@ -99,15 +99,15 @@ function evaluateStudentStatus(student) {
         
         if (today > mDate) {
             state = 'overdue';
-            statusText = `${daysDiff} days overdue`;
+            statusText = `Terlambat ${daysDiff} hari`;
             if (daysDiff > mostOverdueDays) mostOverdueDays = daysDiff;
         } else if (today < mDate) {
             state = 'upcoming';
-            statusText = `${daysDiff} days left`;
+            statusText = `Tersisa ${daysDiff} hari`;
             if (daysDiff < closestDeadlineDays) closestDeadlineDays = daysDiff;
         } else {
             state = 'current';
-            statusText = `Due today!`;
+            statusText = `Batas waktu hari ini!`;
             closestDeadlineDays = 0;
         }
 
@@ -148,7 +148,7 @@ function evaluateStudentStatus(student) {
 // --- UI Layer ---
 
 function formatDate(dateObj) {
-    return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return dateObj.toLocaleDateString('id-ID', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 async function renderStudents() {
@@ -157,7 +157,7 @@ async function renderStudents() {
     
     listEl.innerHTML = `
         <div class="empty-state">
-            <p>Loading students...</p>
+            <p>Memuat mahasiswa...</p>
         </div>
     `;
 
@@ -166,8 +166,8 @@ async function renderStudents() {
     if (studentsRaw.length === 0) {
         listEl.innerHTML = `
             <div class="empty-state">
-                <p>No students tracking right now.</p>
-                <p>Add one above to get started!</p>
+                <p>Belum ada pelacakan mahasiswa saat ini.</p>
+                <p>Tambahkan mahasiswa di atas untuk memulai!</p>
             </div>
         `;
         return;
@@ -227,7 +227,7 @@ async function renderStudents() {
                     <h3 class="sc-name">${student.name}</h3>
                     <div class="sc-prop-date">Proposal: ${formatDate(new Date(student.proposalDate))}</div>
                 </div>
-                <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Remove</button>
+                <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Hapus</button>
             </div>
             <div class="timeline">
                 ${timelineHTML}
@@ -239,7 +239,7 @@ async function renderStudents() {
 
 // Global action handler for inline HTML onclick
 window.handleDelete = async (id) => {
-    if(confirm("Are you sure you want to remove this tracker?")) {
+    if(confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
         await deleteStudent(id);
         await renderStudents();
     }
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (name && date) {
             const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
-            btn.innerText = 'Adding...';
+            btn.innerText = 'Menambahkan...';
             btn.disabled = true;
 
             await addStudent(name, date);
