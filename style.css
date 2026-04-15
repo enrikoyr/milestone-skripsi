@@ -281,8 +281,8 @@ header h1 {
 }
 
 .milestone.completed .ms-dot {
-    background-color: var(--primary-blue);
-    border-color: var(--primary-blue);
+    background-color: var(--success-green);
+    border-color: var(--success-green);
 }
 
 .milestone.current .ms-dot {
@@ -386,6 +386,10 @@ header h1 {
 .status-upcoming {
     color: var(--primary-blue-hover);
     background: #dbeafe;
+}
+.status-warning {
+    color: #b45309;
+    background: #fef3c7;
 }
 .status-overdue {
     color: var(--danger-red);

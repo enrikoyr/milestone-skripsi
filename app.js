@@ -233,8 +233,11 @@ async function renderStudents() {
 
         // Build Timeline HTML
         const timelineHTML = student.milestones.map((m, index, arr) => {
-            let statusClass = m.state === 'overdue' ? 'status-overdue'
-                : (m.state === 'current' ? 'status-upcoming' : (m.state === 'completed' ? 'status-completed' : 'status-upcoming'));
+            let statusClass = '';
+            if (m.state === 'completed') statusClass = 'status-completed';
+            else if (m.state === 'overdue') statusClass = 'status-overdue';
+            else if (m.daysDiff <= 7 || m.state === 'current') statusClass = 'status-warning';
+            else statusClass = 'status-upcoming';
 
             let dotClass = m.state;
             let checkedAttr = m.isCompleted ? 'checked' : '';
