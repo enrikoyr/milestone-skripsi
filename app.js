@@ -29,7 +29,7 @@ async function addStudent(name, proposalDate, pin) {
 
 async function deleteStudent(id, pin) {
     try {
-        const res = await fetch(`/api/students/${id}`, { 
+        const res = await fetch(`/api/students/${id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ pin })
@@ -72,7 +72,7 @@ async function toggleMilestone(id, milestone, isCompleted, pin) {
  */
 function calculateMilestones(proposalDateStr) {
     const propDate = new Date(proposalDateStr);
-    
+
     // Helper to add days
     const addDays = (date, days) => {
         const result = new Date(date);
@@ -103,8 +103,8 @@ function diffDays(date1, date2) {
 function evaluateStudentStatus(student) {
     const milestones = calculateMilestones(student.proposalDate);
     const today = new Date();
-    today.setHours(0,0,0,0); // normalize to midnight
-    
+    today.setHours(0, 0, 0, 0); // normalize to midnight
+
     // Identify current phase and calculate exact status
     const timeline = [
         { key: 'bab3', label: 'BAB III', date: milestones.bab3 },
@@ -115,16 +115,16 @@ function evaluateStudentStatus(student) {
     let currentPhaseIndex = -1;
     let mostOverdueDays = 0;
     let closestDeadlineDays = Infinity;
-    
+
     const evaluatedTimeline = timeline.map((m, index) => {
         const mDate = m.date;
-        mDate.setHours(0,0,0,0);
+        mDate.setHours(0, 0, 0, 0);
 
         let state;
         let daysDiff = diffDays(today, mDate);
         let statusText = '';
         let isCompleted = !!student[`${m.key}CompletedAt`];
-        
+
         if (isCompleted) {
             state = 'completed';
             statusText = `Selesai`;
@@ -153,7 +153,7 @@ function evaluateStudentStatus(student) {
     } else {
         // Find the first non-completed one
         const activeIndex = evaluatedTimeline.findIndex(m => m.state === 'upcoming' || m.state === 'current');
-        if (activeIndex > 0 && evaluatedTimeline[activeIndex-1].state === 'overdue') {
+        if (activeIndex > 0 && evaluatedTimeline[activeIndex - 1].state === 'overdue') {
             // Wait, if an earlier one is overdue, they are stuck on that earlier one actually!
             nextMilestone = evaluatedTimeline.find(m => m.state === 'overdue') || nextMilestone;
         }
@@ -185,7 +185,7 @@ function formatDate(dateObj) {
 async function renderStudents() {
     const listEl = document.getElementById('student-list');
     const sortSelect = document.getElementById('sort-select');
-    
+
     listEl.innerHTML = `
         <div class="empty-state">
             <p>Memuat mahasiswa...</p>
@@ -193,7 +193,7 @@ async function renderStudents() {
     `;
 
     const studentsRaw = await getStudents();
-    
+
     if (studentsRaw.length === 0) {
         listEl.innerHTML = `
             <div class="empty-state">
@@ -227,15 +227,15 @@ async function renderStudents() {
     students.forEach(student => {
         const card = document.createElement('div');
         card.className = 'student-card';
-        
+
         // Build Timeline HTML
         const timelineHTML = student.milestones.map(m => {
-            let statusClass = m.state === 'overdue' ? 'status-overdue' 
-                            : (m.state === 'current' ? 'status-upcoming' : (m.state === 'completed' ? 'status-completed' : 'status-upcoming'));
-            
-            let dotClass = m.state; 
+            let statusClass = m.state === 'overdue' ? 'status-overdue'
+                : (m.state === 'current' ? 'status-upcoming' : (m.state === 'completed' ? 'status-completed' : 'status-upcoming'));
+
+            let dotClass = m.state;
             let checkedAttr = m.isCompleted ? 'checked' : '';
-            
+
             return `
                 <div class="milestone ${dotClass}">
                     <div class="ms-dot"></div>
@@ -254,7 +254,7 @@ async function renderStudents() {
         card.innerHTML = `
             <div class="sc-header">
                 <h3 class="sc-name">${student.name}</h3>
-                <div class="sc-prop-date">📅 Proposal: ${formatDate(new Date(student.proposalDate))}</div>
+                <div class="sc-prop-date">Proposal: ${formatDate(new Date(student.proposalDate))}</div>
                 <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Hapus</button>
             </div>
             <div class="timeline">
@@ -270,7 +270,7 @@ window.handleDelete = async (id) => {
     const pin = prompt("Masukkan PIN mahasiswa untuk menghapus:");
     if (!pin) return;
 
-    if(confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
+    if (confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
         try {
             await deleteStudent(id, pin);
             await renderStudents();
@@ -321,11 +321,11 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             await addStudent(name, date, pin);
-            
+
             nameInput.value = '';
             dateInput.value = '';
             pinInput.value = '';
-            
+
             btn.innerText = originalText;
             btn.disabled = false;
 
