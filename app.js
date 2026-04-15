@@ -222,7 +222,10 @@ async function renderStudents() {
         dashboardEl.classList.remove('hidden');
         const totalStudents = students.length;
         const finishedStudents = students.filter(s => s.milestones.every(m => m.isCompleted)).length;
-        const lateStudents = students.filter(s => s.isOverdue && !s.milestones.every(m => m.isCompleted)).length;
+        const lateStudents = students.filter(s => 
+            !s.milestones.every(m => m.isCompleted) && 
+            s.milestones.some(m => m.state === 'overdue' || m.state === 'completed-late')
+        ).length;
         const onTrackStudents = totalStudents - lateStudents - finishedStudents;
 
         dashboardEl.innerHTML = `
@@ -239,7 +242,7 @@ async function renderStudents() {
                 <div class="dash-label">Terlambat</div>
             </div>
             <div class="dash-stat">
-                <div class="dash-val text-purple">${finishedStudents}</div>
+                <div class="dash-val text-green">${finishedStudents}</div>
                 <div class="dash-label">Selesai Total</div>
             </div>
         `;
