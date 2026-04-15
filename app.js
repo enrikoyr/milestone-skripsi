@@ -128,12 +128,12 @@ function evaluateStudentStatus(student) {
         if (isCompleted) {
             const completedDate = new Date(student[`${m.key}CompletedAt`]);
             const completedDateZeroed = new Date(completedDate);
-            completedDateZeroed.setHours(0,0,0,0);
+            completedDateZeroed.setHours(0, 0, 0, 0);
 
             if (completedDateZeroed > mDate) {
                 state = 'completed-late';
                 const lateDays = diffDays(completedDateZeroed, mDate);
-                statusText = `Selesai Telat ${lateDays} Hr (${formatDate(completedDate)})`;
+                statusText = `Selesai Telat ${lateDays} Hari (${formatDate(completedDate)})`;
             } else {
                 state = 'completed';
                 statusText = `Selesai pada ${formatDate(completedDate)}`;
@@ -251,7 +251,7 @@ async function renderStudents() {
 
             let dotClass = m.state;
             let checkedAttr = m.isCompleted ? 'checked' : '';
-            
+
             let disabledAttr = '';
             let titleText = 'Tandai Selesai / Batal';
             if (!m.isCompleted && index > 0 && !arr[index - 1].isCompleted) {
