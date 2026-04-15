@@ -103,7 +103,7 @@ function evaluateStudentStatus(student) {
             if (daysDiff > mostOverdueDays) mostOverdueDays = daysDiff;
         } else if (today < mDate) {
             state = 'upcoming';
-            statusText = `Tersisa ${daysDiff} hari`;
+            statusText = `${daysDiff} hari lagi`;
             if (daysDiff < closestDeadlineDays) closestDeadlineDays = daysDiff;
         } else {
             state = 'current';
