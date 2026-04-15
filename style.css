@@ -266,11 +266,48 @@ header h1 {
 .ms-checkbox-label {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.4rem;
     cursor: pointer;
+    transition: color 0.2s;
+}
+.ms-checkbox-label:hover {
+    color: var(--primary-blue-hover);
 }
 .ms-checkbox-label input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--card-bg);
     cursor: pointer;
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    display: grid;
+    place-items: center;
+    margin: 0;
+}
+.ms-checkbox-label input[type="checkbox"]:hover {
+    border-color: var(--primary-blue);
+    transform: scale(1.05);
+}
+.ms-checkbox-label input[type="checkbox"]:checked {
+    background-color: var(--success-green);
+    border-color: var(--success-green);
+}
+.ms-checkbox-label input[type="checkbox"]::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0);
+    transform-origin: bottom left;
+    transition: 120ms transform ease-in-out;
+    background-color: white;
+}
+.ms-checkbox-label input[type="checkbox"]:checked::before {
+    transform: scale(1.1);
 }
 
 .ms-date {
