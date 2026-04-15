@@ -1,33 +1,40 @@
 const STORAGE_KEY = 'skripsi_students';
 
-// --- Data Layer (Mocking future Cloudflare D1 integration) ---
+// --- Data Layer (Cloudflare D1 integration) ---
 
-function getStudents() {
-    const data = localStorage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+async function getStudents() {
+    try {
+        const res = await fetch('/api/students');
+        if (!res.ok) throw new Error("Failed to fetch students");
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
 }
 
-function saveStudents(students) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+async function addStudent(name, proposalDate) {
+    try {
+        const res = await fetch('/api/students', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, proposalDate })
+        });
+        if (!res.ok) throw new Error("Failed to add student");
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+    }
 }
 
-function addStudent(name, proposalDate) {
-    const students = getStudents();
-    const newStudent = {
-        id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
-        name,
-        proposalDate, /* YYYY-MM-DD */
-        createdAt: new Date().toISOString()
-    };
-    students.push(newStudent);
-    saveStudents(students);
-    return newStudent;
-}
-
-function deleteStudent(id) {
-    let students = getStudents();
-    students = students.filter(s => s.id !== id);
-    saveStudents(students);
+async function deleteStudent(id) {
+    try {
+        const res = await fetch(`/api/students/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error("Failed to delete student");
+        return true;
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 // --- Business Logic ---
@@ -144,11 +151,17 @@ function formatDate(dateObj) {
     return dateObj.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-function renderStudents() {
+async function renderStudents() {
     const listEl = document.getElementById('student-list');
     const sortSelect = document.getElementById('sort-select');
     
-    const studentsRaw = getStudents();
+    listEl.innerHTML = `
+        <div class="empty-state">
+            <p>Loading students...</p>
+        </div>
+    `;
+
+    const studentsRaw = await getStudents();
     
     if (studentsRaw.length === 0) {
         listEl.innerHTML = `
@@ -225,10 +238,10 @@ function renderStudents() {
 }
 
 // Global action handler for inline HTML onclick
-window.handleDelete = (id) => {
+window.handleDelete = async (id) => {
     if(confirm("Are you sure you want to remove this tracker?")) {
-        deleteStudent(id);
-        renderStudents();
+        await deleteStudent(id);
+        await renderStudents();
     }
 }
 
@@ -240,15 +253,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const dateInput = document.getElementById('proposal-date');
     const sortSelect = document.getElementById('sort-select');
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = nameInput.value.trim();
         const date = dateInput.value;
         if (name && date) {
-            addStudent(name, date);
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Adding...';
+            btn.disabled = true;
+
+            await addStudent(name, date);
+            
             nameInput.value = '';
             dateInput.value = '';
-            renderStudents();
+            
+            btn.innerText = originalText;
+            btn.disabled = false;
+
+            await renderStudents();
         }
     });
 

@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS students (
+    id TEXT PRIMARY KEY,
+    name TEXT NOT NULL,
+    proposalDate TEXT NOT NULL,
+    createdAt TEXT DEFAULT CURRENT_TIMESTAMP
+);
