@@ -13,12 +13,12 @@ async function getStudents() {
     }
 }
 
-async function addStudent(name, proposalDate, pin) {
+async function addStudent(name, nim, proposalDate, pin) {
     try {
         const res = await fetch('/api/students', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, proposalDate, pin })
+            body: JSON.stringify({ name, nim, proposalDate, pin })
         });
         if (!res.ok) throw new Error("Failed to add student");
         return await res.json();
@@ -254,7 +254,10 @@ async function renderStudents() {
 
         card.innerHTML = `
             <div class="sc-header">
-                <h3 class="sc-name">${student.name}</h3>
+                <div>
+                    <h3 class="sc-name">${student.name}</h3>
+                    <div class="sc-nim">${student.nim || '-'}</div>
+                </div>
                 <div class="sc-prop-date">Proposal: ${formatDate(new Date(student.proposalDate))}</div>
                 <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Hapus</button>
             </div>
@@ -305,6 +308,7 @@ window.handleToggleMilestone = async (id, milestone, currentState) => {
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('student-form');
     const nameInput = document.getElementById('student-name');
+    const nimInput = document.getElementById('student-nim');
     const dateInput = document.getElementById('proposal-date');
     const pinInput = document.getElementById('student-pin');
     const sortSelect = document.getElementById('sort-select');
@@ -312,18 +316,20 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = nameInput.value.trim();
+        const nim = nimInput.value.trim();
         const date = dateInput.value;
         const pin = pinInput.value;
 
-        if (name && date && pin) {
+        if (name && nim && date && pin) {
             const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
             btn.innerText = 'Menambahkan...';
             btn.disabled = true;
 
-            await addStudent(name, date, pin);
-
+            await addStudent(name, nim, date, pin);
+            
             nameInput.value = '';
+            nimInput.value = '';
             dateInput.value = '';
             pinInput.value = '';
 
