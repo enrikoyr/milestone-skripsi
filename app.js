@@ -253,10 +253,8 @@ async function renderStudents() {
 
         card.innerHTML = `
             <div class="sc-header">
-                <div>
-                    <h3 class="sc-name">${student.name}</h3>
-                    <div class="sc-prop-date">Proposal: ${formatDate(new Date(student.proposalDate))}</div>
-                </div>
+                <h3 class="sc-name">${student.name}</h3>
+                <div class="sc-prop-date">📅 Proposal: ${formatDate(new Date(student.proposalDate))}</div>
                 <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Hapus</button>
             </div>
             <div class="timeline">
