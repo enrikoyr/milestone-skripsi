@@ -284,6 +284,10 @@ header h1 {
     background-color: var(--success-green);
     border-color: var(--success-green);
 }
+.milestone.completed-late .ms-dot {
+    background-color: #f59e0b; /* vivid warm orange/yellow */
+    border-color: #f59e0b;
+}
 
 .milestone.current .ms-dot {
     border-color: var(--primary-blue);
@@ -382,6 +386,10 @@ header h1 {
 .status-completed {
     color: var(--success-green);
     background: #d1fae5;
+}
+.status-completed-late {
+    color: #92400e;
+    background: #fef3c7;
 }
 .status-upcoming {
     color: var(--primary-blue-hover);

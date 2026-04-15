@@ -126,9 +126,18 @@ function evaluateStudentStatus(student) {
         let isCompleted = !!student[`${m.key}CompletedAt`];
 
         if (isCompleted) {
-            state = 'completed';
             const completedDate = new Date(student[`${m.key}CompletedAt`]);
-            statusText = `Selesai pada ${formatDate(completedDate)}`;
+            const completedDateZeroed = new Date(completedDate);
+            completedDateZeroed.setHours(0,0,0,0);
+
+            if (completedDateZeroed > mDate) {
+                state = 'completed-late';
+                const lateDays = diffDays(completedDateZeroed, mDate);
+                statusText = `Selesai Telat ${lateDays} Hr (${formatDate(completedDate)})`;
+            } else {
+                state = 'completed';
+                statusText = `Selesai pada ${formatDate(completedDate)}`;
+            }
         } else if (today > mDate) {
             state = 'overdue';
             statusText = `Terlambat ${daysDiff} hari`;
@@ -235,6 +244,7 @@ async function renderStudents() {
         const timelineHTML = student.milestones.map((m, index, arr) => {
             let statusClass = '';
             if (m.state === 'completed') statusClass = 'status-completed';
+            else if (m.state === 'completed-late') statusClass = 'status-completed-late';
             else if (m.state === 'overdue') statusClass = 'status-overdue';
             else if (m.daysDiff <= 7) statusClass = 'status-warning';
             else statusClass = 'status-upcoming';
