@@ -13,12 +13,12 @@ async function getStudents() {
     }
 }
 
-async function addStudent(name, proposalDate) {
+async function addStudent(name, proposalDate, pin) {
     try {
         const res = await fetch('/api/students', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, proposalDate })
+            body: JSON.stringify({ name, proposalDate, pin })
         });
         if (!res.ok) throw new Error("Failed to add student");
         return await res.json();
@@ -27,13 +27,40 @@ async function addStudent(name, proposalDate) {
     }
 }
 
-async function deleteStudent(id) {
+async function deleteStudent(id, pin) {
     try {
-        const res = await fetch(`/api/students/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error("Failed to delete student");
+        const res = await fetch(`/api/students/${id}`, { 
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pin })
+        });
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data.error || "Failed to delete student");
+        }
         return true;
     } catch (err) {
         console.error(err);
+        throw err;
+    }
+}
+
+// --- Toggle Milestone ---
+async function toggleMilestone(id, milestone, isCompleted, pin) {
+    try {
+        const res = await fetch(`/api/students/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pin, milestone, isCompleted })
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.error || "Failed to toggle milestone");
+        }
+        return await res.json();
+    } catch (err) {
+        console.error(err);
+        throw err;
     }
 }
 
@@ -93,11 +120,15 @@ function evaluateStudentStatus(student) {
         const mDate = m.date;
         mDate.setHours(0,0,0,0);
 
-        let state = 'completed'; // past
+        let state;
         let daysDiff = diffDays(today, mDate);
         let statusText = '';
+        let isCompleted = !!student[`${m.key}CompletedAt`];
         
-        if (today > mDate) {
+        if (isCompleted) {
+            state = 'completed';
+            statusText = `Selesai`;
+        } else if (today > mDate) {
             state = 'overdue';
             statusText = `Terlambat ${daysDiff} hari`;
             if (daysDiff > mostOverdueDays) mostOverdueDays = daysDiff;
@@ -111,7 +142,7 @@ function evaluateStudentStatus(student) {
             closestDeadlineDays = 0;
         }
 
-        return { ...m, state, statusText, daysDiff };
+        return { ...m, state, statusText, daysDiff, isCompleted };
     });
 
     // Determine the active "current" milestone (the first one not completed, or overdue)
@@ -200,21 +231,20 @@ async function renderStudents() {
         // Build Timeline HTML
         const timelineHTML = student.milestones.map(m => {
             let statusClass = m.state === 'overdue' ? 'status-overdue' 
-                            : (m.state === 'current' ? 'status-upcoming' : 'status-upcoming');
+                            : (m.state === 'current' ? 'status-upcoming' : (m.state === 'completed' ? 'status-completed' : 'status-upcoming'));
             
-            // If it's effectively completed because a future one is next and this one isn't overdue
-            // We need a better heuristic. Since we can't tell if they literally finished,
-            // we assume if today > deadline it's OVERDUE. 
-            // We don't have a "completed" state without checkboxes, so it's always 'upcoming' or 'overdue' 
-            // relative to today.
-            
-            // Re-eval for pure visual clarity on dots
             let dotClass = m.state; 
+            let checkedAttr = m.isCompleted ? 'checked' : '';
             
             return `
                 <div class="milestone ${dotClass}">
                     <div class="ms-dot"></div>
-                    <div class="ms-label">${m.label}</div>
+                    <div class="ms-label">
+                        <label class="ms-checkbox-label" title="Tandai Selesai / Batal">
+                            <input type="checkbox" ${checkedAttr} onclick="handleToggleMilestone('${student.id}', '${m.key}', ${m.isCompleted})">
+                            ${m.label}
+                        </label>
+                    </div>
                     <div class="ms-date">${formatDate(m.date)}</div>
                     <div class="ms-status ${statusClass}">${m.statusText}</div>
                 </div>
@@ -239,8 +269,34 @@ async function renderStudents() {
 
 // Global action handler for inline HTML onclick
 window.handleDelete = async (id) => {
+    const pin = prompt("Masukkan PIN mahasiswa untuk menghapus:");
+    if (!pin) return;
+
     if(confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
-        await deleteStudent(id);
+        try {
+            await deleteStudent(id, pin);
+            await renderStudents();
+        } catch (e) {
+            alert(e.message);
+        }
+    }
+}
+
+window.handleToggleMilestone = async (id, milestone, currentState) => {
+    const isCompleted = !currentState;
+    const action = isCompleted ? "menyelesaikan" : "membatalkan penyelesaian";
+    const pin = prompt(`Masukkan PIN mahasiswa untuk ${action} milestone ini:`);
+    if (!pin) {
+        // revert checkbox visually instantly if cancelled
+        await renderStudents();
+        return;
+    }
+
+    try {
+        await toggleMilestone(id, milestone, isCompleted, pin);
+        await renderStudents();
+    } catch (e) {
+        alert(e.message);
         await renderStudents();
     }
 }
@@ -251,22 +307,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('student-form');
     const nameInput = document.getElementById('student-name');
     const dateInput = document.getElementById('proposal-date');
+    const pinInput = document.getElementById('student-pin');
     const sortSelect = document.getElementById('sort-select');
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = nameInput.value.trim();
         const date = dateInput.value;
-        if (name && date) {
+        const pin = pinInput.value;
+
+        if (name && date && pin) {
             const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerText;
             btn.innerText = 'Menambahkan...';
             btn.disabled = true;
 
-            await addStudent(name, date);
+            await addStudent(name, date, pin);
             
             nameInput.value = '';
             dateInput.value = '';
+            pinInput.value = '';
             
             btn.innerText = originalText;
             btn.disabled = false;

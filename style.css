@@ -263,6 +263,16 @@ header h1 {
     margin-bottom: 0.25rem;
 }
 
+.ms-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    cursor: pointer;
+}
+.ms-checkbox-label input[type="checkbox"] {
+    cursor: pointer;
+}
+
 .ms-date {
     font-size: 0.75rem;
     color: var(--text-muted);
@@ -278,6 +288,10 @@ header h1 {
 
 /* Status Colors */
 .status-ontrack {
+    color: var(--success-green);
+    background: #d1fae5;
+}
+.status-completed {
     color: var(--success-green);
     background: #d1fae5;
 }
