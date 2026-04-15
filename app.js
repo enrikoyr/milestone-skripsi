@@ -209,9 +209,11 @@ async function renderStudents() {
     let students = studentsRaw.map(evaluateStudentStatus);
 
     // Sort
-    const sortVal = sortSelect.value;
+    const sortVal = sortSelect.value || 'newest';
     students.sort((a, b) => {
-        if (sortVal === 'name') {
+        if (sortVal === 'newest') {
+            return new Date(b.createdAt) - new Date(a.createdAt);
+        } else if (sortVal === 'name') {
             return a.name.localeCompare(b.name);
         } else if (sortVal === 'closest') {
             // Sort by closest deadline (smallest days remaining)

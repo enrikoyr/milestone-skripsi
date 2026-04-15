@@ -67,9 +67,31 @@ header h1 {
 
 #student-form {
     display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-inputs {
+    display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     align-items: flex-end;
+}
+
+.agreement-notice {
+    background-color: #fffbeb;
+    border-left: 4px solid var(--warning-yellow);
+    padding: 1rem;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    font-size: 0.85rem;
+    color: #92400e;
+    line-height: 1.6;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .form-group {

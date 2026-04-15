@@ -19,23 +19,32 @@
         <section class="add-form card">
             <h2>Tambah Mahasiswa</h2>
             <form id="student-form">
-                <div class="form-group">
-                    <label for="student-name">Nama Mahasiswa</label>
-                    <input type="text" id="student-name" required placeholder="Nama">
+                <div class="form-inputs">
+                    <div class="form-group">
+                        <label for="student-name">Nama Mahasiswa</label>
+                        <input type="text" id="student-name" required placeholder="Nama">
+                    </div>
+                    <div class="form-group">
+                        <label for="student-nim">NIM</label>
+                        <input type="text" id="student-nim" required placeholder="D1041161004">
+                    </div>
+                    <div class="form-group">
+                        <label for="proposal-date">Tanggal Seminar Proposal</label>
+                        <input type="date" id="proposal-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="student-pin">Buat PIN</label>
+                        <input type="password" id="student-pin" placeholder="Buat PIN" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="student-nim">NIM</label>
-                    <input type="text" id="student-nim" required placeholder="misal: 130119xxx">
+
+                <div class="agreement-notice">
+                    <p><strong>Peringatan Akademik:</strong> Dengan menambahkan nama ke leaderboard ini, mahasiswa berkomitmen menyelesaikan Skripsi tepat waktu (120 Hari). Keterlambatan dalam memenuhi milestone dapat mempengaruhi kebijakan evaluasi, dimana dosen <strong>dapat menurunkan batas nilai maksimal</strong> (misal: terlewat 1 milestone maksimal nilai B, 2 milestone maksimal nilai C).</p>
                 </div>
-                <div class="form-group">
-                    <label for="proposal-date">Tanggal Seminar Proposal</label>
-                    <input type="date" id="proposal-date" required>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn">Tambah ke Leaderboard</button>
                 </div>
-                <div class="form-group">
-                    <label for="student-pin">Buat PIN</label>
-                    <input type="password" id="student-pin" placeholder="Buat PIN" required>
-                </div>
-                <button type="submit" class="btn">Tambah ke Leaderboard</button>
             </form>
         </section>
 
@@ -45,6 +54,7 @@
                 <div class="sort-options">
                     <label for="sort-select">Urutkan berdasarkan:</label>
                     <select id="sort-select">
+                        <option value="newest">Terbaru Ditambahkan</option>
                         <option value="name">Nama (A-Z)</option>
                         <option value="closest">Tenggat Terdekat</option>
                         <option value="overdue">Paling Terlambat</option>
