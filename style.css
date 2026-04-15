@@ -190,6 +190,46 @@ header h1 {
     outline: none;
 }
 
+/* Dashboard Widget */
+.dashboard-widget {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: var(--card-bg);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+}
+.dashboard-widget.hidden {
+    display: none;
+}
+.dash-stat {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid var(--border-color);
+}
+.dash-stat:last-child {
+    border-right: none;
+}
+.dash-val {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+.dash-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.text-blue { color: var(--primary-blue-hover); }
+.text-green { color: var(--success-green); }
+.text-red { color: var(--danger-red); }
+.text-purple { color: #8b5cf6; }
+
 /* Student Cards */
 .student-card {
     background: var(--card-bg);

@@ -181,7 +181,8 @@ function evaluateStudentStatus(student) {
         milestones: evaluatedTimeline,
         nextMilestone,
         mostOverdueDays,
-        closestDeadlineDays: closestDeadlineDays === Infinity ? 0 : closestDeadlineDays
+        closestDeadlineDays: closestDeadlineDays === Infinity ? 0 : closestDeadlineDays,
+        isOverdue: mostOverdueDays > 0
     };
 }
 
@@ -195,6 +196,7 @@ function formatDate(dateObj) {
 async function renderStudents() {
     const listEl = document.getElementById('student-list');
     const sortSelect = document.getElementById('sort-select');
+    const dashboardEl = document.getElementById('dashboard-widget');
 
     listEl.innerHTML = `
         <div class="empty-state">
@@ -205,17 +207,43 @@ async function renderStudents() {
     const studentsRaw = await getStudents();
 
     if (studentsRaw.length === 0) {
+        if (dashboardEl) dashboardEl.classList.add('hidden');
         listEl.innerHTML = `
             <div class="empty-state">
-                <p>Belum ada pelacakan mahasiswa saat ini.</p>
-                <p>Tambahkan mahasiswa di atas untuk memulai!</p>
+                <p>Belum ada mahasiswa yang dilacak. Tambahkan di atas!</p>
             </div>
         `;
         return;
     }
 
-    // Evaluate
     let students = studentsRaw.map(evaluateStudentStatus);
+
+    if (dashboardEl) {
+        dashboardEl.classList.remove('hidden');
+        const totalStudents = students.length;
+        const finishedStudents = students.filter(s => s.milestones.every(m => m.isCompleted)).length;
+        const lateStudents = students.filter(s => s.isOverdue && !s.milestones.every(m => m.isCompleted)).length;
+        const onTrackStudents = totalStudents - lateStudents - finishedStudents;
+
+        dashboardEl.innerHTML = `
+            <div class="dash-stat">
+                <div class="dash-val text-blue">${totalStudents}</div>
+                <div class="dash-label">Total Mahasiswa</div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-val text-green">${onTrackStudents}</div>
+                <div class="dash-label">Tepat Waktu</div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-val text-red">${lateStudents}</div>
+                <div class="dash-label">Terlambat</div>
+            </div>
+            <div class="dash-stat">
+                <div class="dash-val text-purple">${finishedStudents}</div>
+                <div class="dash-label">Selesai Total</div>
+            </div>
+        `;
+    }
 
     // Sort
     const sortVal = sortSelect.value || 'newest';
