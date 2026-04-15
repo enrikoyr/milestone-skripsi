@@ -303,10 +303,10 @@ function askForPin(message) {
 
 // Global action handler for inline HTML onclick
 window.handleDelete = async (id) => {
-    const pin = await askForPin("Masukkan PIN mahasiswa untuk menghapus pelacakan:");
+    const pin = await askForPin("Masukkan PIN kamu untuk menghapus pelacakan:");
     if (!pin) return;
 
-    if (confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
+    if (confirm("Apakah kamu yakin ingin menghapus pelacakan ini?")) {
         try {
             await deleteStudent(id, pin);
             await renderStudents();
@@ -319,7 +319,7 @@ window.handleDelete = async (id) => {
 window.handleToggleMilestone = async (id, milestone, currentState) => {
     const isCompleted = !currentState;
     const action = isCompleted ? "menyelesaikan" : "membatalkan penyelesaian";
-    const pin = await askForPin(`Masukkan PIN mahasiswa untuk ${action} milestone ini:`);
+    const pin = await askForPin(`Masukkan PIN kamu untuk ${action} milestone ini:`);
     if (!pin) {
         // revert checkbox visually instantly if cancelled
         await renderStudents();
@@ -359,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             await addStudent(name, nim, date, pin);
-            
+
             nameInput.value = '';
             nimInput.value = '';
             dateInput.value = '';
