@@ -391,3 +391,33 @@ header h1 {
     border-radius: var(--radius-md);
     border: 1px dashed var(--border-color);
 }
+
+/* Modal UI */
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal.hidden {
+    display: none;
+}
+.modal-content {
+    width: 90%;
+    max-width: 400px;
+    margin: 0;
+    box-shadow: var(--shadow-md);
+}
+.modal-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}

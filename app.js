@@ -271,9 +271,39 @@ async function renderStudents() {
     });
 }
 
+// --- Custom Modal Helper ---
+function askForPin(message) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('pin-modal');
+        const msgEl = document.getElementById('pin-modal-message');
+        const form = document.getElementById('pin-modal-form');
+        const input = document.getElementById('pin-modal-input');
+        const cancelBtn = document.getElementById('pin-modal-cancel');
+
+        msgEl.innerText = message;
+        input.value = '';
+        modal.classList.remove('hidden');
+        input.focus();
+
+        const close = (val) => {
+            modal.classList.add('hidden');
+            cancelBtn.onclick = null;
+            form.onsubmit = null;
+            resolve(val);
+        };
+
+        cancelBtn.onclick = () => close(null);
+
+        form.onsubmit = (e) => {
+            e.preventDefault();
+            close(input.value.trim());
+        };
+    });
+}
+
 // Global action handler for inline HTML onclick
 window.handleDelete = async (id) => {
-    const pin = prompt("Masukkan PIN mahasiswa untuk menghapus:");
+    const pin = await askForPin("Masukkan PIN mahasiswa untuk menghapus pelacakan:");
     if (!pin) return;
 
     if (confirm("Apakah Anda yakin ingin menghapus pelacakan ini?")) {
@@ -289,7 +319,7 @@ window.handleDelete = async (id) => {
 window.handleToggleMilestone = async (id, milestone, currentState) => {
     const isCompleted = !currentState;
     const action = isCompleted ? "menyelesaikan" : "membatalkan penyelesaian";
-    const pin = prompt(`Masukkan PIN mahasiswa untuk ${action} milestone ini:`);
+    const pin = await askForPin(`Masukkan PIN mahasiswa untuk ${action} milestone ini:`);
     if (!pin) {
         // revert checkbox visually instantly if cancelled
         await renderStudents();
