@@ -236,7 +236,7 @@ async function renderStudents() {
             let statusClass = '';
             if (m.state === 'completed') statusClass = 'status-completed';
             else if (m.state === 'overdue') statusClass = 'status-overdue';
-            else if (m.daysDiff <= 7 || m.state === 'current') statusClass = 'status-warning';
+            else if (m.daysDiff <= 7) statusClass = 'status-warning';
             else statusClass = 'status-upcoming';
 
             let dotClass = m.state;
