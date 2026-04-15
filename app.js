@@ -127,7 +127,8 @@ function evaluateStudentStatus(student) {
 
         if (isCompleted) {
             state = 'completed';
-            statusText = `Selesai`;
+            const completedDate = new Date(student[`${m.key}CompletedAt`]);
+            statusText = `Selesai pada ${formatDate(completedDate)}`;
         } else if (today > mDate) {
             state = 'overdue';
             statusText = `Terlambat ${daysDiff} hari`;
