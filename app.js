@@ -232,19 +232,29 @@ async function renderStudents() {
         card.className = 'student-card';
 
         // Build Timeline HTML
-        const timelineHTML = student.milestones.map(m => {
+        const timelineHTML = student.milestones.map((m, index, arr) => {
             let statusClass = m.state === 'overdue' ? 'status-overdue'
                 : (m.state === 'current' ? 'status-upcoming' : (m.state === 'completed' ? 'status-completed' : 'status-upcoming'));
 
             let dotClass = m.state;
             let checkedAttr = m.isCompleted ? 'checked' : '';
+            
+            let disabledAttr = '';
+            let titleText = 'Tandai Selesai / Batal';
+            if (!m.isCompleted && index > 0 && !arr[index - 1].isCompleted) {
+                disabledAttr = 'disabled';
+                titleText = 'Selesaikan milestone sebelumnya terlebih dahulu!';
+            } else if (m.isCompleted && index < arr.length - 1 && arr[index + 1].isCompleted) {
+                disabledAttr = 'disabled';
+                titleText = 'Batalkan milestone berikutnya terlebih dahulu!';
+            }
 
             return `
                 <div class="milestone ${dotClass}">
                     <div class="ms-dot"></div>
                     <div class="ms-label">
-                        <label class="ms-checkbox-label" title="Tandai Selesai / Batal">
-                            <input type="checkbox" ${checkedAttr} onclick="handleToggleMilestone('${student.id}', '${m.key}', ${m.isCompleted})">
+                        <label class="ms-checkbox-label" title="${titleText}">
+                            <input type="checkbox" ${checkedAttr} ${disabledAttr} onclick="if(this.disabled) return false; handleToggleMilestone('${student.id}', '${m.key}', ${m.isCompleted})">
                             ${m.label}
                         </label>
                     </div>
