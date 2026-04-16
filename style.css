@@ -320,6 +320,16 @@ header h1 {
     transition: all 0.3s;
 }
 
+.milestone-major .ms-dot {
+    width: 32px;
+    height: 32px;
+    border-width: 5px;
+}
+.milestone-major .ms-label {
+    font-size: 1rem;
+    color: var(--primary-blue-hover);
+}
+
 .milestone.completed .ms-dot {
     background-color: var(--success-green);
     border-color: var(--success-green);
