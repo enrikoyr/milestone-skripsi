@@ -58,7 +58,7 @@ export async function onRequestPatch(context) {
             return new Response(JSON.stringify({ error: "Missing PIN or milestone" }), { status: 400, headers: { "Content-Type": "application/json" } });
         }
 
-        const validMilestones = ['bab3', 'bab4', 'bab5'];
+        const validMilestones = ['bab1', 'bab2', 'bab3', 'propDefense', 'bab4', 'bab5', 'finalDefense'];
         if (!validMilestones.includes(milestone)) {
             return new Response(JSON.stringify({ error: "Invalid milestone" }), { status: 400, headers: { "Content-Type": "application/json" } });
         }

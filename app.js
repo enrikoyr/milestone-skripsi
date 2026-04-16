@@ -13,12 +13,12 @@ async function getStudents() {
     }
 }
 
-async function addStudent(name, nim, proposalDate, pin) {
+async function addStudent(name, nim, startDate, pin) {
     try {
         const res = await fetch('/api/students', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, nim, proposalDate, pin })
+            body: JSON.stringify({ name, nim, startDate, pin })
         });
         if (!res.ok) throw new Error("Failed to add student");
         return await res.json();
@@ -70,8 +70,8 @@ async function toggleMilestone(id, milestone, isCompleted, pin) {
  * Calculates milestones based on the 120 timeline rules.
  * @param {string} proposalDateStr 'YYYY-MM-DD'
  */
-function calculateMilestones(proposalDateStr) {
-    const propDate = new Date(proposalDateStr);
+function calculateMilestones(startDateStr) {
+    const startDate = new Date(startDateStr);
 
     // Helper to add days
     const addDays = (date, days) => {
@@ -81,10 +81,13 @@ function calculateMilestones(proposalDateStr) {
     };
 
     return {
-        proposal: propDate,
-        bab3: addDays(propDate, 40),
-        bab4: addDays(propDate, 100),
-        bab5: addDays(propDate, 120),
+        bab1: addDays(startDate, 40),
+        bab2: addDays(startDate, 80),
+        bab3: addDays(startDate, 180),
+        propDefense: addDays(startDate, 194),
+        bab4: addDays(startDate, 314),
+        bab5: addDays(startDate, 374),
+        finalDefense: addDays(startDate, 388),
     };
 }
 
@@ -101,15 +104,19 @@ function diffDays(date1, date2) {
  * Generates status object for rendering timeline
  */
 function evaluateStudentStatus(student) {
-    const milestones = calculateMilestones(student.proposalDate);
+    const milestones = calculateMilestones(student.startDate);
     const today = new Date();
     today.setHours(0, 0, 0, 0); // normalize to midnight
 
     // Identify current phase and calculate exact status
     const timeline = [
+        { key: 'bab1', label: 'BAB I', date: milestones.bab1 },
+        { key: 'bab2', label: 'BAB II', date: milestones.bab2 },
         { key: 'bab3', label: 'BAB III', date: milestones.bab3 },
+        { key: 'propDefense', label: 'Seminar Proposal', date: milestones.propDefense, isMajor: true },
         { key: 'bab4', label: 'BAB IV', date: milestones.bab4 },
-        { key: 'bab5', label: 'BAB V & Finalisasi', date: milestones.bab5 }
+        { key: 'bab5', label: 'BAB V', date: milestones.bab5 },
+        { key: 'finalDefense', label: 'Sidang Akhir', date: milestones.finalDefense, isMajor: true }
     ];
 
     let currentPhaseIndex = -1;
@@ -159,7 +166,7 @@ function evaluateStudentStatus(student) {
     let nextMilestone = evaluatedTimeline.find(m => m.state === 'upcoming' || m.state === 'current');
     if (!nextMilestone) {
         // If all are past, look for the most advanced overdue
-        nextMilestone = evaluatedTimeline[evaluatedTimeline.length - 1]; // BAB V
+        nextMilestone = evaluatedTimeline[evaluatedTimeline.length - 1]; // Final Defense
     } else {
         // Find the first non-completed one
         const activeIndex = evaluatedTimeline.findIndex(m => m.state === 'upcoming' || m.state === 'current');
@@ -294,7 +301,7 @@ async function renderStudents() {
             }
 
             return `
-                <div class="milestone ${dotClass}">
+                <div class="milestone ${dotClass} ${m.isMajor ? 'milestone-major' : ''}">
                     <div class="ms-dot"></div>
                     <div class="ms-label">
                         <label class="ms-checkbox-label" title="${titleText}">
@@ -314,7 +321,7 @@ async function renderStudents() {
                     <h3 class="sc-name">${student.name}</h3>
                     <div class="sc-nim">${student.nim || '-'}</div>
                 </div>
-                <div class="sc-prop-date">Proposal: ${formatDate(new Date(student.proposalDate))}</div>
+                <div class="sc-prop-date">Mulai: ${formatDate(new Date(student.startDate))}</div>
                 <button class="btn btn-small btn-danger" onclick="handleDelete('${student.id}')">Hapus</button>
             </div>
             <div class="timeline">
@@ -395,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('student-form');
     const nameInput = document.getElementById('student-name');
     const nimInput = document.getElementById('student-nim');
-    const dateInput = document.getElementById('proposal-date');
+    const dateInput = document.getElementById('start-date');
     const pinInput = document.getElementById('student-pin');
     const sortSelect = document.getElementById('sort-select');
 
