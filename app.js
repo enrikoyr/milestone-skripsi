@@ -140,7 +140,7 @@ function evaluateStudentStatus(student) {
             if (completedDateZeroed > mDate) {
                 state = 'completed-late';
                 const lateDays = diffDays(completedDateZeroed, mDate);
-                statusText = `Selesai Telat ${lateDays} Hari (${formatDate(completedDate)})`;
+                statusText = `Selesai Telat ${lateDays} Hari <br> (${formatDate(completedDate)})`;
             } else {
                 state = 'completed';
                 statusText = `Selesai pada ${formatDate(completedDate)}`;
