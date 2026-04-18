@@ -301,7 +301,6 @@ async function renderStudents() {
             } else if (m.isCompleted && index === arr.length - 1) {
                 disabledAttr = 'disabled';
                 titleText = 'Skripsi telah selesai! Anda tidak dapat membatalkan milestone akhir.';
-                dotClass += ' final-locked';
             }
 
             return `
