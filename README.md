@@ -4,12 +4,11 @@
 
 [![Deploy to Cloudflare Pages](https://img.shields.io/badge/Deploy-Cloudflare%20Pages-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://pages.cloudflare.com/)
 [![Database](https://img.shields.io/badge/Database-Cloudflare%20D1-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://developers.cloudflare.com/d1/)
-[![Made with](https://img.shields.io/badge/Made%20with-☕%20%2B%20Stress-brown?style=for-the-badge)]()
 [![License](https://img.shields.io/badge/License-Bebas%20Dipakai-green?style=for-the-badge)]()
 
 ---
 
-## ✨ Apa Ini?
+## Apa Ini?
 
 Halo!
 
