@@ -11,7 +11,25 @@
 
 ## ✨ Apa Ini?
 
-**milestone-skripsi** adalah aplikasi web sederhana untuk melacak progres skripsimu — dari semangat di awal sampai drama di akhir. 📋
+Halo!
+
+Perkenalkan, saya Enriko Yudhistira Ramadhan, dosen di Jurusan Informatika, Fakultas Teknik, Universitas Tanjungpura
+
+Saya mengembangkan sistem milestone otomatis yang bisa membuat kamu lebih termotivasi untuk menyelesaikan tugas akhir dengan cepat. Biasanya kamu pasti bingung, rentang jadwal seperti apa yang baik untuk menyelesaikan Tugas Akhir agar bisa selesai tepat waktu...
+
+Jangan bingung lagi, sekarang ada milestone.enriko.id!!!!!
+
+Sistematis penggunaannya adalah, kamu masukkan nama, NIM, dan tanggal persetujuan judul skripsi kalian. Kemudian masukkan PIN yang nantinya diperlukan untuk centang progress milestone kamu. 
+
+Dengan menambahkan nama kamu di leaderboard, kamu berkomitmen untuk menyelesaikan skripsi kamu dalam kurun waktu kurang lebih 1 tahun!
+
+Masing-masing milestone akan diberikan durasi maksimum. Jika kalian telat, akan ada konsekuensinya!
+
+Kita kadang kesulitan dalam mengatur diri kita sendiri. Walaupun kita berpikir "Aku harus menyelesaikan naskah proposal dalam waktu 3 bulan", tanpa adanya aturan, pikiran tersebut akan mudah untuk kita langgar sendiri. 
+
+Dengan menggunakan sistem milestone, kalian dapat motivasi eksternal yang dapat memotivasi kalian!
+
+Ingat, Lulus Tepat Waktu selalu lebih baik daripada telat!
 
 Capek lihat skripsi cuma ada di kepala? Sekarang catat milestone-nya di sini, biar kamu tahu udah sejauh mana perjalanan (dan berapa jauh lagi yang harus ditempuh 😭).
 
@@ -19,9 +37,9 @@ Capek lihat skripsi cuma ada di kepala? Sekarang catat milestone-nya di sini, bi
 
 ## 🚀 Fitur
 
-- 📌 **Catat Milestone** — Tambah, edit, dan hapus tahapan skripsimu dengan mudah
-- ✅ **Tandai Progress** — Update status setiap milestone (belum mulai / sedang jalan / selesai!)
-- 🗓️ **Pantau Timeline** — Lihat semua progresmu dalam satu tampilan
+- 📌 **Daftar ke Papan Leaderboard** — Tambahkan nama kamu di leaderboard!
+- ✅ **Tandai Progress** — Update status setiap milestonemu setiap kamu menyelesaikan BAB - BAB Skripsi!
+- 🗓️ **Pantau Timeline** — Lihat Tanggal Deadline yang dihitung oleh sistem!
 - 💾 **Data Tersimpan Aman** — Powered by Cloudflare D1, data kamu nggak ke mana-mana
 - ⚡ **Super Cepat** — Deploy di Cloudflare Pages, loading-nya ngebut kayak semangat di BAB 1
 
@@ -41,10 +59,9 @@ Capek lihat skripsi cuma ada di kepala? Sekarang catat milestone-nya di sini, bi
 ## 📖 Cara Pakai
 
 1. **Buka websitenya** di browser kamu
-2. **Tambah milestone baru** — klik tombol tambah dan isi nama tahapan skripsimu (contoh: "Bab 1 Selesai", "ACC Proposal", dll)
-3. **Update statusnya** — tandai setiap milestone sesuai progres: belum mulai, sedang berjalan, atau sudah selesai ✅
-4. **Pantau semua progress** — lihat gambaran besar perjalanan skripsimu dalam satu halaman
-5. **Edit atau hapus** milestone kapanpun kamu mau — karena skripsi itu dinamis, kadang rencananya berubah 😅
+2. **Masukan Nama, NIM, tanggal persetujuan judul, dan PIN. PIN akan digunakan untuk mencentang progress kamu sendiri, jadi diingat ya!** — 
+3. **Update statusnya** — Setiap kamu menyelesaikan BAB Skripsi, pencet tanda ✅ dan masukkan PIN kamu
+4. **Jangan sampai telat** — Jangan sampai kamu telat mengerjakan milestone kamu ya!
 
 ---
 
@@ -64,21 +81,7 @@ milestone-skripsi/
 
 ## 🤝 Kontribusi
 
-PR dan issue sangat terbuka! Kalau kamu mahasiswa yang juga lagi berjuang dengan skripsi dan punya ide fitur, jangan ragu untuk:
-
-1. Fork repo ini
-2. Buat branch baru (`git checkout -b fitur/ide-keren-kamu`)
-3. Commit perubahanmu (`git commit -m 'Tambah fitur keren'`)
-4. Push ke branch (`git push origin fitur/ide-keren-kamu`)
-5. Buat Pull Request
-
----
-
-## 💬 Pesan dari Developer
-
-> Proyek ini dibuat di sela-sela ngerjain skripsi itu sendiri. Jadi kalau ada bug, anggap aja sebagai fitur eksklusif. 😄
->
-> Semangat buat semua pejuang skripsi di luar sana — kamu pasti bisa! 💪
+Masukan untuk Aplikasi sangat diterima!
 
 ---
 
@@ -89,7 +92,7 @@ Bebas dipakai untuk keperluan apapun. Kalau berguna, boleh kasih ⭐ di GitHub y
 ---
 
 <p align="center">
-  Dibuat dengan ❤️ dan ☕ yang sangat banyak oleh <a href="https://github.com/enrikoyr">enrikoyr</a>
+  Dibuat untuk Aktualisasi LATSAR oleh <a href="https://github.com/enrikoyr">enrikoyr</a>
   <br/>
   <i>Semoga skripsimu cepat ACC. Amin. 🙏</i>
 </p>
