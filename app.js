@@ -178,7 +178,7 @@ function evaluateStudentStatus(student) {
 
     // Force exact "current" class on the active milestone dot
     evaluatedTimeline.forEach(m => {
-        if (m.key === nextMilestone?.key && m.state !== 'overdue') {
+        if (m.key === nextMilestone?.key && m.state !== 'overdue' && !m.isCompleted) {
             m.state = 'current';
         }
     });
