@@ -456,6 +456,11 @@ header h1 {
     background: #fee2e2;
 }
 
+.milestone.final-locked {
+    filter: grayscale(100%) opacity(0.7);
+    pointer-events: none; /* Just to be absolutely safe, although input is disabled */
+}
+
 .empty-state {
     text-align: center;
     padding: 3rem 1rem;
