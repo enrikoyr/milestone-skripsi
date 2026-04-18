@@ -38,59 +38,13 @@ Capek lihat skripsi cuma ada di kepala? Sekarang catat milestone-nya di sini, bi
 
 ---
 
-## 🏁 Cara Menjalankan Lokal
+## 📖 Cara Pakai
 
-### Prasyarat
-
-Pastikan sudah install:
-- [Node.js](https://nodejs.org/) (versi 18+)
-- [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
-
-```bash
-npm install -g wrangler
-```
-
-### Langkah-langkah
-
-1. **Clone repo ini**
-   ```bash
-   git clone https://github.com/enrikoyr/milestone-skripsi.git
-   cd milestone-skripsi
-   ```
-
-2. **Login ke Cloudflare** (kalau belum)
-   ```bash
-   wrangler login
-   ```
-
-3. **Buat database D1 lokal**
-   ```bash
-   wrangler d1 create skripsi-db
-   ```
-   Lalu update `database_id` di `wrangler.toml` sesuai ID yang baru dibuat.
-
-4. **Jalankan migrasi skema database**
-   ```bash
-   wrangler d1 execute skripsi-db --local --file=./schema.sql
-   ```
-
-5. **Jalankan di lokal**
-   ```bash
-   wrangler pages dev .
-   ```
-
-6. Buka browser ke `http://localhost:8788` dan... selamat datang di command center skripsimu! 🎉
-
----
-
-## ☁️ Deploy ke Cloudflare Pages
-
-1. Fork atau push repo ini ke GitHub kamu.
-2. Buka [Cloudflare Pages Dashboard](https://pages.cloudflare.com/).
-3. Hubungkan dengan repo GitHub kamu.
-4. Set build output directory ke `.` (titik).
-5. Hubungkan D1 database `skripsi-db` di bagian **Settings > Functions > D1 Database Bindings**.
-6. Deploy! 🚀
+1. **Buka websitenya** di browser kamu
+2. **Tambah milestone baru** — klik tombol tambah dan isi nama tahapan skripsimu (contoh: "Bab 1 Selesai", "ACC Proposal", dll)
+3. **Update statusnya** — tandai setiap milestone sesuai progres: belum mulai, sedang berjalan, atau sudah selesai ✅
+4. **Pantau semua progress** — lihat gambaran besar perjalanan skripsimu dalam satu halaman
+5. **Edit atau hapus** milestone kapanpun kamu mau — karena skripsi itu dinamis, kadang rencananya berubah 😅
 
 ---
 
